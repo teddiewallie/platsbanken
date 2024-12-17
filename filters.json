@@ -11,6 +11,17 @@
     }
   },
   {
+    "name": "vxonight",
+    "concept_ids": {
+      "workplace_address__municipality": ["mmot_H3A_auW"],
+      "occupation_group": []
+    },
+    "keywords": {
+      "list": ["natt", "nätter", "night"],
+      "promiscous": 1
+    }
+  },
+  {
     "name": "vxoall",
     "concept_ids": {
       "workplace_address__municipality": ["mmot_H3A_auW"],

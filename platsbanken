@@ -18,6 +18,7 @@ parser.add_argument('-u', '--update', action='store_true')
 parser.add_argument('-i', '--id')
 parser.add_argument('-q', '--query')
 parser.add_argument('-n', '--filternames', action='store_true')
+parser.add_argument('-c', '--count')
 
 args = parser.parse_args()
 
@@ -91,8 +92,17 @@ occupation = lambda ad, value: ad['occupation_group']['concept_id'] == value
 municipal = lambda ad, value: ad['workplace_address']['municipality_concept_id'] == value
 keyword = lambda ad, value: value in ad['description']['text']
 
+#
+# Formatted list row
+#
 def listRow(ad):
     return ad['publication_date'][:10] + ' ' + ad['id'] + ' ' + ad['headline']
+
+#
+# Sort list by date
+#
+def sortListByDate(unsortedList):
+    return unsortedList.sort(key=lambda ad: ad['publication_date'])
 
 #
 # Crunch one filter
@@ -125,10 +135,19 @@ def crunchFilter(f):
                 curatedList = curatedWithKeywords
 
 
-    curatedList.sort(key=lambda ad: ad['publication_date'])
+    sortListByDate(curatedList)
 
-    for ad in curatedList:
-        print(listRow(ad))
+    if (args.count != None):
+        counter = 0;
+        reverse = list(reversed(curatedList))
+
+        while counter < int(args.count) + 1:
+            print(listRow(reverse[int(args.count) - counter]))
+            counter = counter + 1
+        
+    else:
+        for ad in curatedList:
+            print(listRow(ad))
 
 #
 # Get filter by name
@@ -153,6 +172,7 @@ if args.query != None:
     curatedList = raw
     for k in keywords:
         curatedList = filt(curatedList, keyword, k)
+    sortListByDate(curatedList)
     for ad in curatedList:
         print(listRow(ad))
 
