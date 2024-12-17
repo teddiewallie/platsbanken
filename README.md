@@ -1,3 +1,5 @@
+```
+
 usage: Platsbanken [-h] [-f FILTER] [-u] [-i ID] [-q QUERY] [-n]
 
 Curate for me
@@ -9,3 +11,5 @@ options:
   -i ID, --id ID
   -q QUERY, --query QUERY
   -n, --filternames
+
+  ```
