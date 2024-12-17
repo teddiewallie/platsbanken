@@ -1,0 +1,35 @@
+[
+  {
+    "name": "vxoit",
+    "concept_ids": {
+      "workplace_address__municipality": ["mmot_H3A_auW"],
+      "occupation_group": ["DJh5_yyF_hEM"]
+    },
+    "keywords": {
+      "list": [],
+      "promiscous": 0
+    }
+  },
+  {
+    "name": "vxoall",
+    "concept_ids": {
+      "workplace_address__municipality": ["mmot_H3A_auW"],
+      "occupation_group": []
+    },
+    "keywords": {
+      "list": [],
+      "promiscous": 0
+    }
+  },
+  {
+    "name": "itremote",
+    "concept_ids": {
+      "workplace_address__municipality": [],
+      "occupation_group": ["DJh5_yyF_hEM"]
+    },
+    "keywords": {
+      "list": ["distans", "remote"],
+      "promiscous": 1
+    }
+  }
+]
