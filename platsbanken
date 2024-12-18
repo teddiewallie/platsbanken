@@ -21,6 +21,7 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument('-f', '--filter')
 parser.add_argument('-u', '--update', action='store_true')
+parser.add_argument('-t', '--update_today', action='store_true')
 parser.add_argument('-i', '--id')
 parser.add_argument('-q', '--query')
 parser.add_argument('-n', '--filternames', action='store_true')
@@ -52,10 +53,12 @@ def dumpJson(name, dump):
 #
 def fetch():
     joblist = openJson(adfile)
-    oldcount = len(joblist)
 
-    modified = datetime.datetime.fromtimestamp(os.path.getmtime(adfile))
-    modified = modified.strftime('%Y-%m-%dT%H:%M:%S')
+    modified = datetime.date.today().strftime('%Y-%m-%dT%H:%M:%S')
+    
+    if args.update_today == False:
+        modified = datetime.datetime.fromtimestamp(os.path.getmtime(adfile))
+        modified = modified.strftime('%Y-%m-%dT%H:%M:%S')
 
     url = 'https://jobstream.api.jobtechdev.se/stream?date=' + modified
     with urllib.request.urlopen(url) as stream:
@@ -80,10 +83,11 @@ def fetch():
                     found = True
 
             if found == False:
-                if "removed" not in no:
+                if "removed" in no and no['removed'] == False:
+                    joblist.append(no)
+                elif "removed" not in no:
                     joblist.append(no)
         print()
-        print(f"{len(joblist) - oldcount} new ads")
         dumpJson(adfile, joblist)
 
 #
