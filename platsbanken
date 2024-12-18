@@ -20,11 +20,13 @@ parser = argparse.ArgumentParser(
         description='Curate for me')
 
 parser.add_argument('-f', '--filter')
+parser.add_argument('-t', '--today', action='store_true')
 parser.add_argument('-u', '--update', action='store_true')
-parser.add_argument('-t', '--update_today', action='store_true')
+parser.add_argument('--update_today', action='store_true')
 parser.add_argument('-i', '--id')
 parser.add_argument('-q', '--query')
 parser.add_argument('-n', '--filternames', action='store_true')
+parser.add_argument('-a', '--all', action='store_true')
 parser.add_argument('-c', '--count')
 parser.add_argument('-r', '--recent', action='store_true')
 parser.add_argument('--init')
@@ -128,14 +130,19 @@ def sortListByDate(unsortedList):
 #
 def crunchFilter(f):
     raw = openJson(adfile)
-    curatedList = []
+    curatedList = None
 
     if len(f['concept_ids']['workplace_address__municipality']) > 0:
         for m in f['concept_ids']['workplace_address__municipality']:
-            curatedList = curatedList + filt(raw, municipal, m)
+            curatedList = filt(raw, municipal, m)
+
+        if len(curatedList) == 0:
+            print('No ads to show.')
+            return
+
     if len(f['concept_ids']['occupation_group']) > 0:
         for m in f['concept_ids']['occupation_group']:
-            if len(curatedList) == 0:
+            if curatedList == None:
                 curatedList = filt(raw, occupation, m)
             else:
                 curatedList = filt(curatedList, occupation, m)
@@ -143,6 +150,9 @@ def crunchFilter(f):
     curatedWithKeywords = []
 
     if len(f['keywords']['list']) > 0:
+        if curatedList == None:
+            curatedList = []
+
         for idx, m in enumerate(f['keywords']['list']):
             if(f['keywords']['promiscous']):
                 curatedWithKeywords = curatedWithKeywords + filt(curatedList, keyword, m)
@@ -158,6 +168,10 @@ def crunchFilter(f):
         todayAds = filt(curatedList, datecheck, today)
         curatedList = yesterdayAds + todayAds
 
+    if args.today == True:
+        todayAds = filt(curatedList, datecheck, today)
+        curatedList = todayAds
+
     sortListByDate(curatedList)
 
     if args.count != None:
@@ -170,7 +184,8 @@ def crunchFilter(f):
         
     else:
         if len(curatedList) == 0:
-            curatedList = raw
+            print('No ads to show.')
+            return
         for ad in curatedList:
             print(listRow(ad))
 
@@ -185,11 +200,11 @@ def getFilterByName(name):
             return f
     return None
 
-if args.filter != None:
-    crunchFilter(getFilterByName(args.filter))
-
 if args.update == True:
     fetch()
+
+if args.filter != None:
+    crunchFilter(getFilterByName(args.filter))
 
 if args.query != None:
     keywords = args.query.split()
@@ -201,6 +216,11 @@ if args.query != None:
     for ad in curatedList:
         print(listRow(ad))
 
+if args.all:
+    raw = openJson(adfile)
+    sortListByDate(raw)
+    for ad in raw:
+        print(listRow(ad))
 
 if args.id != None:
     raw = openJson(adfile)
