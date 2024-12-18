@@ -33,6 +33,17 @@
     }
   },
   {
+    "name": "all",
+    "concept_ids": {
+      "workplace_address__municipality": [],
+      "occupation_group": []
+    },
+    "keywords": {
+      "list": [],
+      "promiscous": 0
+    }
+  },
+  {
     "name": "itremote",
     "concept_ids": {
       "workplace_address__municipality": [],

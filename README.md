@@ -1,8 +1,10 @@
 ```
+init:
+curl -X https://jobstream.api.jobtechdev.se/snapshot > platsbanken.json
 
 usage: Platsbanken [-h] [-f FILTER] [-u] [-i ID] [-q QUERY] [-n]
 
-Curate for me
+Platsbanken in the terminal
 
 options:
   -h, --help            show this help message and exit
