@@ -86,7 +86,6 @@ def fetch():
                 dictionary[o['id']] = o
 
         dumpJson(adfile, list(dictionary.values()))
-
         print()
 
 #
