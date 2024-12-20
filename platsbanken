@@ -69,9 +69,6 @@ def fetch():
 
         olddata = openJson(adfile)
 
-        newdata.sort(key=lambda ad: ad['id'])
-        olddata.sort(key=lambda ad: ad['id'])
-
         dictionary = {}
 
         for o in olddata:
