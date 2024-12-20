@@ -50,12 +50,10 @@ def dumpJson(name, dump):
     json.dump(dump, f)
     f.close()
 
-#
-# Fetch new ads from API
-#
-def fetch():
-    joblist = openJson(adfile)
+def isRemoved(ad):
+    return 'removed' in ad and ad['removed'] == True
 
+def fetch():
     modified = datetime.date.today().strftime('%Y-%m-%dT%H:%M:%S')
     
     if args.update_today == False:
@@ -69,28 +67,30 @@ def fetch():
             print('No new ads')
             return
 
-        found = False
-        for ni, no in enumerate(newdata, start=0):
-            print(f"adding and updating ads: {ni}/{len(newdata) - 1}", end='\r', flush=True)
-            if found == True:
-                found = False
+        olddata = openJson(adfile)
 
-            for i, o in enumerate(joblist, start=0):
-                if o['id'] == no['id']:
-                    if "removed" in no and no['removed'] == True:
-                        del joblist[i]
-                    else:
-                        joblist[i] = newdata[ni]
-                    found = True
-                    break
+        newdata.sort(key=lambda ad: ad['id'])
+        olddata.sort(key=lambda ad: ad['id'])
 
-            if found == False:
-                if "removed" in no and no['removed'] == False:
-                    joblist.append(no)
-                elif "removed" not in no:
-                    joblist.append(no)
+        dictionary = {}
+
+        for o in olddata:
+            dictionary[o['id']] = o
+
+        total = len(newdata)
+        counter = 0
+
+        while len(newdata) > 0:
+            o = newdata.pop(0)
+            counter = counter + 1
+            print(f"adding and updating ads: {counter}/{total}", end='\r', flush=True)
+
+            if not isRemoved(o):
+                dictionary[o['id']] = o
+
+        dumpJson(adfile, list(dictionary.values()))
+
         print()
-        dumpJson(adfile, joblist)
 
 #
 # Modular filter function
