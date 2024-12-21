@@ -110,6 +110,54 @@ keyword = lambda ad, value: value in ad['description']['text']
 datecheck = lambda ad, value: ad['publication_date'][:10] == value
 
 #
+# filter municipality
+#
+def filtermunicipality(f, ads):
+    curatedList = []
+
+    if len(f['concept_ids']['workplace_address__municipality']) == 0:
+        return ads
+
+    for m in f['concept_ids']['workplace_address__municipality']:
+        curatedList.extend(filt(ads, municipal, m))
+
+    return curatedList
+
+#
+# filter occupation
+#
+def filteroccupation(f, ads):
+    curatedList = []
+
+    if len(f['concept_ids']['occupation_group']) == 0:
+        return ads
+
+    for m in f['concept_ids']['occupation_group']:
+        curatedList.extend(filt(ads, occupation, m))
+
+    return curatedList
+
+#
+# filter keywords
+#
+def filterkeywords(f, ads):
+    if len(f['keywords']['list']) == 0:
+        return ads
+
+    curatedList = []
+
+
+    if(f['keywords']['promiscous']):
+        for word in f['keywords']['list'].split():
+            curatedList.extend(filt(ads, keyword, word))
+    else:
+        curatedList = ads
+        for word in f['keywords']['list'].split():
+            curatedList = filt(curatedList, keyword, word)
+
+    return curatedList
+
+#
 # Formatted list row
 #
 def listRow(ad):
@@ -126,38 +174,15 @@ def sortListByDate(unsortedList):
 #
 def crunchFilter(f):
     raw = openJson(adfile)
-    curatedList = None
+    curatedList = []
 
-    if len(f['concept_ids']['workplace_address__municipality']) > 0:
-        for m in f['concept_ids']['workplace_address__municipality']:
-            curatedList = filt(raw, municipal, m)
+    curatedList = filtermunicipality(f, raw)
+    curatedList = filteroccupation(f, curatedList)
+    curatedList = filterkeywords(f, curatedList)
 
-        if len(curatedList) == 0:
-            print('No ads to show.')
-            return
-
-    if len(f['concept_ids']['occupation_group']) > 0:
-        for m in f['concept_ids']['occupation_group']:
-            if curatedList == None:
-                curatedList = filt(raw, occupation, m)
-            else:
-                curatedList = filt(curatedList, occupation, m)
-
-    curatedWithKeywords = []
-
-    if len(f['keywords']['list']) > 0:
-        if curatedList == None:
-            curatedList = []
-
-        for idx, m in enumerate(f['keywords']['list']):
-            if(f['keywords']['promiscous']):
-                curatedWithKeywords = curatedWithKeywords + filt(curatedList, keyword, m)
-            else:
-                if idx == 0:
-                    curatedWithKeywords = curatedList
-                curatedWithKeywords = filt(curatedWithKeywords, keyword, m)
-            if idx == len(f['keywords']['list']) - 1:
-                curatedList = curatedWithKeywords
+    if len(curatedList) == 0:
+        print("No ads to show.")
+        return
 
     if args.recent == True:
         yesterdayAds = filt(curatedList, datecheck, yesterday)
@@ -177,11 +202,7 @@ def crunchFilter(f):
         while counter < int(args.count) + 1:
             print(listRow(reverse[int(args.count) - counter]))
             counter = counter + 1
-        
     else:
-        if len(curatedList) == 0:
-            print('No ads to show.')
-            return
         for ad in curatedList:
             print(listRow(ad))
 

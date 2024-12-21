@@ -33,6 +33,39 @@
     }
   },
   {
+    "name": "kalall",
+    "concept_ids": {
+      "workplace_address__municipality": ["Pnmg_SgP_uHQ"],
+      "occupation_group": []
+    },
+    "keywords": {
+      "list": [],
+      "promiscous": 0
+    }
+  },
+  {
+    "name": "kalit",
+    "concept_ids": {
+      "workplace_address__municipality": ["Pnmg_SgP_uHQ"],
+      "occupation_group": ["DJh5_yyF_hEM"]
+    },
+    "keywords": {
+      "list": [],
+      "promiscous": 0
+    }
+  },
+  {
+    "name": "vxokalall",
+    "concept_ids": {
+      "workplace_address__municipality": ["mmot_H3A_auW", "Pnmg_SgP_uHQ"],
+      "occupation_group": []
+    },
+    "keywords": {
+      "list": [],
+      "promiscous": 0
+    }
+  },
+  {
     "name": "itremote",
     "concept_ids": {
       "workplace_address__municipality": [],
