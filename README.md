@@ -1,4 +1,9 @@
+Before using the program, you need a snapshot of all the ads. If you are in this directory, you can download it via:
+
 ```
+curl https://jobstream.api.jobtechdev.se/snapshot > platsbanken.json
+
+---
 
 usage: Platsbanken [-h] [-f FILTER] [-t] [-u] [-x] [-i ID] [-q QUERY] [-n]
                    [-a] [-r] [--init INIT]
