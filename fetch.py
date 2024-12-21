@@ -15,7 +15,7 @@ def fetch(args):
     with urllib.request.urlopen(url) as stream:
         newdata = helpers.jsonLoad(stream)
         if len(newdata) == 0:
-            view.noads()
+            view.nofetch()
             return
 
         olddata = helpers.getAdFile()

@@ -101,12 +101,15 @@ def crunchFilter(args):
         return
 
     if args.recent == True:
-        yesterdayAds = filt(curatedList, datecheckInj, helpers.getYesterday())
-        todayAds = filt(curatedList, datecheckInj, helpers.getToday())
+        yesterday = helpers.getYesterdayAsString('%Y-%m-%d')
+        today = helpers.getTodayAsString('%Y-%m-%d')
+        yesterdayAds = filt(curatedList, datecheckInj, yesterday)
+        todayAds = filt(curatedList, datecheckInj, today)
         curatedList = yesterdayAds + todayAds
 
     if args.today == True:
-        todayAds = filt(curatedList, datecheckInj, helpers.getToday())
+        today = helpers.getTodayAsString('%Y-%m-%d')
+        todayAds = filt(curatedList, datecheckInj, today)
         curatedList = todayAds
 
     helpers.sortAdsByDate(curatedList)

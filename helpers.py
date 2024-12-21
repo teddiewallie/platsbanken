@@ -5,6 +5,9 @@ import datetime
 adfile = 'platsbanken.json'
 filterfile = 'filters.json'
 
+def dateToString(date, form):
+    return date.strftime(form)
+
 #
 # Get today as datetime
 #
@@ -12,10 +15,22 @@ def getToday():
     return datetime.date.today()
 
 #
+# Get yesterday as string
+#
+def getTodayAsString(form):
+    return dateToString(getToday(), form)
+
+#
 # Get yesterday as datetime
 #
 def getYesterday():
-    return today - datetime.timedelta(days=1)
+    return getToday() - datetime.timedelta(days=1)
+
+#
+# Get yesterday as string
+#
+def getYesterdayAsString(form):
+    return dateToString(getYesterday(), form)
 
 #
 # Get raw data from json file
@@ -81,3 +96,9 @@ def sortAdsByDate(ads):
     return ads.sort(key=lambda ad: ad['publication_date'])
 
 
+#
+# Breakpoint
+#
+def breakpoint(printer):
+    print(printer)
+    exit(0)

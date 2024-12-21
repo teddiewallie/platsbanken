@@ -10,6 +10,9 @@ def listRow(ad):
 def noads():
     print("No ads to show.")
 
+def nofetch():
+    print("No ads to fetch.")
+
 #
 # Show a single ad.
 #
