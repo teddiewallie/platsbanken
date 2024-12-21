@@ -58,14 +58,15 @@ def filterkeywords(keywords, isPromiscous, ads):
         return ads
 
     curatedList = []
-
+    if isinstance(keywords, str):
+        keywords = keywords.split()
 
     if(isPromiscous):
-        for word in keywords.split():
+        for word in keywords:
             curatedList.extend(filt(ads, keywordInj, word))
     else:
         curatedList = ads
-        for word in keywords.split():
+        for word in keywords:
             curatedList = filt(curatedList, keywordInj, word)
 
     return curatedList
