@@ -1,3 +1,5 @@
+```
+
 usage: Platsbanken [-h] [-f FILTER] [-t] [-u] [-x] [-i ID] [-q QUERY] [-n]
                    [-a] [-r] [--init INIT]
 
@@ -15,3 +17,5 @@ options:
   -a, --all
   -r, --recent
   --init INIT
+
+```
