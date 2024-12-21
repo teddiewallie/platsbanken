@@ -17,8 +17,8 @@ def nofetch():
 # Show a single ad.
 #
 def onead(ad):
-    print(thisAd['headline'])
-    print(thisAd['description']['text'])
+    print(ad['headline'])
+    print(ad['description']['text'])
 
 #
 # Show many ads.

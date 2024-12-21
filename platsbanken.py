@@ -52,6 +52,8 @@ if args.id != None:
     for ad in raw:
         if ad['id'] == args.id:
            thisAd = ad 
+           break
+    view.onead(ad)
 
 
 if args.filternames == True:
