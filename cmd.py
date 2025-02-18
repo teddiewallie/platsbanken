@@ -1,5 +1,3 @@
-from fastapi import FastAPI
-
 import argparse
 import view
 import helpers
