@@ -75,5 +75,16 @@
       "list": ["distans", "remote"],
       "promiscous": 1
     }
+  },
+  {
+    "name": "itautism",
+    "concept_ids": {
+      "workplace_address__municipality": [],
+      "occupation_group": ["DJh5_yyF_hEM"]
+    },
+    "keywords": {
+      "list": ["autism"],
+      "promiscous": 1
+    }
   }
 ]
