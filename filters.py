@@ -86,7 +86,12 @@ def getFilterByName(name):
 # Crunch one filter
 #
 def crunchFilter(args):
-    f = getFilterByName(args.filter)
+    f = ""
+    if type(args) == str:
+        f = getFilterByName(args)
+    else:
+        f = getFilterByName(args.filter)
+
     raw = helpers.getAdFile()
     curatedList = []
 
@@ -101,19 +106,22 @@ def crunchFilter(args):
         view.noads()
         return
 
-    if args.recent == True:
+    if type(args) != str and args.recent == True:
         yesterday = helpers.getYesterdayAsString('%Y-%m-%d')
         today = helpers.getTodayAsString('%Y-%m-%d')
         yesterdayAds = filt(curatedList, datecheckInj, yesterday)
         todayAds = filt(curatedList, datecheckInj, today)
         curatedList = yesterdayAds + todayAds
 
-    if args.today == True:
+    if type(args) != str and args.today == True:
         today = helpers.getTodayAsString('%Y-%m-%d')
         todayAds = filt(curatedList, datecheckInj, today)
         curatedList = todayAds
 
     helpers.sortAdsByDate(curatedList)
-    view.manyads(curatedList)
 
+    if type(args) == str:
+        return curatedList
+    else:
+        view.manyads(curatedList)
 

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+      window.onload = async () => {
+        const response = await fetch('/filter');
+        const names = await response.json();
+        names.names.split(' ').forEach((name) => addFilterName(name));
+      }
+
+      const addFilterName = (name) => {
+        const element = document.createElement('a');
+        element.addEventListener('click', () => loadFilter(name));
+        element.href = "#";
+        element.innerText = name;
+        document.querySelector('.filters').appendChild(element);
+      }
+
+      const loadFilter = async (name) => {
+        document.querySelector('.ads').innerHTML = '...';
+        const response = await fetch(`/filter/${name}`);
+        const ads = await response.json();
+        document.querySelector('.ads').innerHTML = '';
+        ads.reverse().forEach((ad) => appendAd(ad));
+      }
+
+      const appendAd = (ad) => {
+        const element = document.createElement('a');
+        element.innerText = `${ad.publication_date.split('T')[0]}\t${ad.headline}`;
+        element.href = `https://arbetsformedlingen.se/platsbanken/annonser/${ad.id}`
+        document.querySelector('.ads').appendChild(element);
+      }
+    </script>
+
+<style type="text/css">
+  a {
+    text-decoration: none;
+    margin-right: 0.5em;
+    color: #000;
+    font-family: monospace;
+  }
+
+  .filters {
+    border-bottom: 1px solid #000;
+    margin-bottom: 1em;
+  }
+
+  .ads a {
+    display: block;
+  }
+</style>
+  </head>
+  <body>
+    <div class="filters"></div>
+    <div class="ads"></div>
+  </body>
+</html>
+

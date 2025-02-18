@@ -49,6 +49,12 @@ def dumpJson(name, dump):
     json.dump(dump, f)
     f.close()
 
+def getTextFile(name):
+    f = open(name, 'r')
+    data = f.read()
+    f.close()
+    return data
+
 #
 # Get the adfile
 #
