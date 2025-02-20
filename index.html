@@ -8,14 +8,18 @@
         const response = await fetch('/filter');
         const names = await response.json();
         names.names.split(' ').forEach((name) => addFilterName(name));
+
+        const filterSelect = document.querySelector('.filterSelect')
+        filterSelect.onchange = (e) => {
+          loadFilter(e.target.selectedOptions[0].value);
+        };
       }
 
       const addFilterName = (name) => {
-        const element = document.createElement('a');
-        element.addEventListener('click', () => loadFilter(name));
-        element.href = "#";
-        element.innerText = name;
-        document.querySelector('.filters').appendChild(element);
+        const option = document.createElement('option');
+        option.value = name;
+        option.innerText = name;
+        document.querySelector('.filterSelect').appendChild(option);
       }
 
       const loadFilter = async (name) => {
@@ -53,7 +57,11 @@
 </style>
   </head>
   <body>
-    <div class="filters"></div>
+    <div class="filters">
+      <select name="filters" class="filterSelect">
+
+      </select>
+    </div>
     <div class="ads"></div>
   </body>
 </html>
