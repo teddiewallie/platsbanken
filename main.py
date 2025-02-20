@@ -8,11 +8,11 @@ import filters
 
 app = FastAPI()
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/platsbanken/", response_class=HTMLResponse)
 def get_root():
     return helpers.getTextFile("index.html")
 
-@app.get("/filter")
+@app.get("/platsbanken/filter")
 def get_filters():
     theseFilters = helpers.getFilterFile()
     names = ""
@@ -20,7 +20,7 @@ def get_filters():
         names = names + f['name'] + " "
     return {"names": names.strip()}
 
-@app.get("/filter/{filter_name}")
+@app.get("/platsbanken/filter/{filter_name}")
 def get_filter(filter_name: str):
     theseFilters = helpers.getFilterFile()
     names = ""

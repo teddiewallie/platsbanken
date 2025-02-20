@@ -5,3 +5,5 @@ __pycache__/
 
 lib64
 platsbanken.json
+pyvenv.cfg
+

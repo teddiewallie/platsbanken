@@ -1,6 +1,6 @@
 #!/bin/sh
 
 {
-  cd /home/tewa/Development/platsbanken
-  python cmd.py $@
+  cd /home/tewa/platsbanken
+  python /home/tewa/platsbanken/cmd.py $@
 }

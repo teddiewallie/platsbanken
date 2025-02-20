@@ -3,9 +3,10 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <script type="text/javascript">
       window.onload = async () => {
-        const response = await fetch('/filter');
+        const response = await fetch('/platsbanken/filter');
         const names = await response.json();
         names.names.split(' ').forEach((name) => addFilterName(name));
 
@@ -24,7 +25,7 @@
 
       const loadFilter = async (name) => {
         document.querySelector('.ads').innerHTML = '...';
-        const response = await fetch(`/filter/${name}`);
+        const response = await fetch(`/platsbanken/filter/${name}`);
         const ads = await response.json();
         document.querySelector('.ads').innerHTML = '';
         ads.reverse().forEach((ad) => appendAd(ad));
@@ -39,6 +40,10 @@
     </script>
 
 <style type="text/css">
+  * {
+    margin: 0;
+    padding: 0;
+  }
   a {
     text-decoration: none;
     margin-right: 0.5em;
@@ -49,10 +54,22 @@
   .filters {
     border-bottom: 1px solid #000;
     margin-bottom: 1em;
+    position: fixed;
+    background: #fff;
+    padding: 1em;
+    overflow-x: scroll;
+  }
+
+  .ads {
+    padding-top: 4em;
   }
 
   .ads a {
     display: block;
+    padding: 1em 0 1em 0;
+  }
+  .ads > a:nth-child(even) {
+    background: #ddd;
   }
 </style>
   </head>
